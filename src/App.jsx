@@ -1,6 +1,7 @@
 import { LikeCounter } from "./components/LikesCounter"
 import { Plot } from "./components/Plot"
 import "./App.css"
+import { Form } from "./components/Form"
 
 function App() {
 	return (
@@ -9,6 +10,7 @@ function App() {
 			<h2>Rok produkcji: 2023</h2>
 			<LikeCounter />
 			<Plot />
+			<Form />
 		</>
 	)
 }
