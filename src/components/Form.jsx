@@ -1,9 +1,26 @@
 import { useState } from "react"
+import { Review } from "./Review"
+
+const initialReviews = [
+	{
+		author: "Konrad",
+		text: "Jeśli nie będę pracował jako Frontaś to sie powiesze xpp!",
+		id: 1,
+	},
+	{
+		author: "Gocziczi",
+		text: "Kapibara bez kapi to bara a bez bara to sok!",
+		id: 2,
+	},
+]
 
 export const Form = () => {
-	const [review, setReview] = useState(null)
+	const [reviews, setReviews] = useState(initialReviews)
 	const [inputValue, setInputValue] = useState("")
 	const [textareaValue, setTextareaValue] = useState("")
+	const reviewsElement = reviews.map(r => (
+		<Review key={r.id} author={r.author} text={r.text} />
+	))
 
 	const handleSubmit = event => {
 		event.preventDefault()
@@ -11,7 +28,12 @@ export const Form = () => {
 		const author = inputValue
 		const text = textareaValue
 
-		setReview({ author, text })
+		setReviews(prevReviews => {
+			return [{ author, text, id: prevReviews.length + 1 }, ...prevReviews]
+		})
+
+		setInputValue("")
+		setTextareaValue("")
 	}
 
 	const handleInputValueChange = event => {
@@ -23,12 +45,8 @@ export const Form = () => {
 
 	return (
 		<>
-			{review && (
-				<article>
-					<strong>{review.author}</strong>
-					<p>{review.text}</p>
-				</article>
-			)}
+			<hr />
+			{reviewsElement}
 			<h2>Dodaj recenzję</h2>
 			<form onSubmit={handleSubmit}>
 				<div>
@@ -50,6 +68,7 @@ export const Form = () => {
 					<textarea
 						name='text'
 						id='text'
+						value={textareaValue}
 						onChange={handleTextareaValueChange}></textarea>
 				</div>
 				<button
