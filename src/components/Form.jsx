@@ -1,26 +1,8 @@
 import { useState } from "react"
-import { Review } from "./Review"
 
-const initialReviews = [
-	{
-		author: "Konrad",
-		text: "Jeśli nie będę pracował jako Frontaś to sie powiesze xpp!",
-		id: 1,
-	},
-	{
-		author: "Gocziczi",
-		text: "Kapibara bez kapi to bara a bez bara to sok!",
-		id: 2,
-	},
-]
-
-export const Form = () => {
-	const [reviews, setReviews] = useState(initialReviews)
+export const Form = ({ onReviewSubmit }) => {
 	const [inputValue, setInputValue] = useState("")
 	const [textareaValue, setTextareaValue] = useState("")
-	const reviewsElement = reviews.map(r => (
-		<Review key={r.id} author={r.author} text={r.text} />
-	))
 
 	const handleSubmit = event => {
 		event.preventDefault()
@@ -28,10 +10,7 @@ export const Form = () => {
 		const author = inputValue
 		const text = textareaValue
 
-		setReviews(prevReviews => {
-			return [{ author, text, id: prevReviews.length + 1 }, ...prevReviews]
-		})
-
+		onReviewSubmit(author, text)
 		setInputValue("")
 		setTextareaValue("")
 	}
@@ -46,7 +25,7 @@ export const Form = () => {
 	return (
 		<>
 			<hr />
-			{reviewsElement}
+
 			<h2>Dodaj recenzję</h2>
 			<form onSubmit={handleSubmit}>
 				<div>
